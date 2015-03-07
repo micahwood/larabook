@@ -7,12 +7,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      {{ link_to_route('home', 'Larabook', null, ['class' => 'navbar-brand']) }}
+      <a href="{{ Auth::check() ? route('statuses_path') : route('home') }}" class="navbar-brand">Larabook</a>
     </div>
 
     <div class="collapse navbar-collapse navbar-ex1-collapse">
       <ul class="nav navbar-nav">
-        <li class="active">{{ link_to_route('users_path', 'Browse Users') }}</li>
+        <li class="">{{ link_to_route('users_path', 'Browse Users') }}</li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">

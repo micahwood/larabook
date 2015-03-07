@@ -47,4 +47,15 @@ class Status extends Eloquent {
 
     return $status;
   }
+
+
+  /**
+   * A status has many comments
+   *
+   * @return Comment
+   */
+  public function comments()
+  {
+    return $this->hasMany('Larabook\Statuses\Comment');
+  }
 }

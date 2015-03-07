@@ -20,4 +20,27 @@ class StatusRepository {
   {
     return User::findOrFail($userId)->statuses()->save($status);
   }
+
+
+  /**
+   * Get the feed for a user
+   *
+   * @param User $user
+   * @return Status
+   */
+  public function getFeedForUser(User $user)
+  {
+    $userIds = $user->followedUsers()->lists('followed_id');
+    $userIds[] = $user->id;
+
+    return Status::with('comments')->whereIn('user_id', $userIds)->latest()->get();
+  }
+
+  public function leaveComment($userId, $statusId, $body)
+  {
+    $comment = Comment::leave($body, $statusId);
+    User::findOrFail($userId)->comments()->save($comment);
+
+    return $comment;
+  }
 }

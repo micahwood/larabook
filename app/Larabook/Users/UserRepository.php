@@ -32,9 +32,41 @@ class UserRepository {
    */
   public function findByUsername($username)
   {
-    return User::with(['statuses' => function($query)
-    {
-      $query->latest();
-    }])->whereUsername($username)->first();
+    return User::with('statuses')->whereUsername($username)->first();
+  }
+
+  /**
+   * Find a user by their id
+   *
+   * @param $id
+   * @return User
+   */
+  public function findById($id)
+  {
+    return User::findOrFail($id);
+  }
+
+  /**
+   * Follow a Larabook user
+   *
+   * @param $userIdToFollow
+   * @param User $user
+   * @return User
+   */
+  public function follow($userIdToFollow, User $user)
+  {
+    return $user->followedUsers()->attach($userIdToFollow);
+  }
+
+  /**
+   * Unfollow a Larabook user
+   *
+   * @param $userIdToUnfollow
+   * @param User $user
+   * @return User
+   */
+  public function unfollow($userIdToUnfollow, User $user)
+  {
+    return $user->followedUsers()->detach($userIdToUnfollow);
   }
 }
